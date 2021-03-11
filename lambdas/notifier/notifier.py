@@ -106,8 +106,13 @@ def build_slack_message_from_event(event):
 
 def send_slack_notification(payload: dict):
     params = json.dumps(payload).encode()
+    client = boto3.client('secretsmanager')
+    response = client.get_secret_value(
+        SecretId=os.environ["SLACK_WEBHOOK_URL"],
+    )
+    slack_webhook_url = response['SecretString']
     req = urllib.request.Request(
-        os.environ["SLACK_WEBHOOK_URL"],
+        slack_webhook_url,
         data=params,
         headers={"content-type": "application/json"},
     )
