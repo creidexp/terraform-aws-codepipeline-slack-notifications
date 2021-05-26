@@ -1,4 +1,6 @@
 __pycache__/
 .terraform
+.terraform.lock.hcl
 *.tfstate*
+*.tfvars
 *.zip

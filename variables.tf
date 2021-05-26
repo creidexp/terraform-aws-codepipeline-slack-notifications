@@ -14,13 +14,19 @@ variable "stage" {
 }
 
 variable "attributes" {
-  type        = list
+  type        = list(any)
   description = "List of attributes to add to label"
   default     = []
 }
 
+variable "tags" {
+  type        = map(string)
+  default     = {}
+  description = "Additional tags (e.g. `map('BusinessUnit','XYZ')`)"
+}
+
 variable "codepipelines" {
-  type        = list
+  type        = list(any)
   description = "CodePipeline resources that should trigger Slack notifications"
 }
 
@@ -44,4 +50,17 @@ variable "slack_emoji" {
   type        = string
   description = "The emoji avatar of the user that sends the notifications"
   default     = ":rocket:"
+}
+
+variable "event_type_ids" {
+  type        = list(any)
+  description = "The list of event type to trigger a notification on"
+  default = [
+    "codepipeline-pipeline-pipeline-execution-failed",
+    "codepipeline-pipeline-pipeline-execution-canceled",
+    "codepipeline-pipeline-pipeline-execution-started",
+    "codepipeline-pipeline-pipeline-execution-resumed",
+    "codepipeline-pipeline-pipeline-execution-succeeded",
+    "codepipeline-pipeline-pipeline-execution-superseded"
+  ]
 }
